@@ -1,0 +1,23 @@
+# global config config file
+# This file is used to configure the global settings for the application
+
+log_config:
+  log_level: INFO
+  log_file: app.log
+
+server:
+  host: localhost
+  port: 8080
+  # debug: true
+
+database:
+  host: localhost
+  port: 3452
+  user: admin
+  password: password
+  db_name: amp
+grafana:
+  host: localhost
+  port: 3000
+  user: admin
+  password: admin
