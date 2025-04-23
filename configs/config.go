@@ -3,8 +3,16 @@
 * A clean way to config your project
 * referrenc https://dev.to/ilyakaznacheev/a-clean-way-to-pass-configs-in-a-go-application-1g64
 * author :tf
+* file config -> env config -> command line config
  */
 package configs
+
+import (
+	"fmt"
+	"os"
+
+	"gopkg.in/yaml.v3"
+)
 
 type Config struct {
 	// log config
@@ -28,4 +36,76 @@ type Config struct {
 		Host string `yaml:"host"`
 		Port int    `yaml:"port"`
 	} `yaml:"database"`
+	// Grafana config
+	Grafana struct {
+		Host string `yaml:"host"`
+		Port int    `yaml:"port"`
+	}
+}
+
+// gennerate from copilt not use for this time
+func NewConfig() *Config {
+	return &Config{
+		LogConfig: struct {
+			LogLevel string `yaml:"log_level"`
+			LogFile  string `yaml:"log_file"`
+		}{
+			LogLevel: "info",
+			LogFile:  "logs/app.log",
+		},
+		Server: struct {
+			Host string `yaml:"host"`
+			Port int    `yaml:"port"`
+		}{
+			Host: "localhost",
+			Port: 8080,
+		},
+		Database: struct {
+			Host string `yaml:"host"`
+			Port int    `yaml:"port"`
+		}{
+			Host: "localhost",
+			Port: 3452,
+		},
+		Grafana: struct {
+			Host string `yaml:"host"`
+			Port int    `yaml:"port"`
+		}{
+			Host: "localhost",
+			Port: 4632,
+		},
+	}
+}
+
+// process err
+func processError(err error) {
+	fmt.Printf("Error: %v", err)
+	os.Exit(-1)
+}
+
+// load the global config
+func LoadConfig() *Config {
+
+}
+
+// read config from the config file
+
+func readFile(cfg *Config, file string) {
+	f, err := os.Open(file)
+	if err != nil {
+		processError(err)
+	}
+	// file close at the func end
+	defer f.Close()
+
+	decoder := yaml.NewDecoder(f)
+	err = decoder.Decode(cfg)
+	if err != nil {
+		processError(err)
+	}
+}
+
+// read config from env
+func readEnv(cfg *Config) {
+
 }
