@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/caarlos0/env/v11"
 	"gopkg.in/yaml.v3"
 )
 
@@ -35,12 +36,17 @@ type Config struct {
 	Database struct {
 		Host string `yaml:"host"`
 		Port int    `yaml:"port"`
+		User string `env:"DB_USER"`
+		Pass string `env:"DB_PASS"`
+		Name string `env:"DB_NAME"`
 	} `yaml:"database"`
 	// Grafana config
 	Grafana struct {
 		Host string `yaml:"host"`
 		Port int    `yaml:"port"`
-	}
+		User string `env:"GRAFANA_USER"`
+		Pass string `env:"GRAFANA_PASS"`
+	} `yaml:"grafana"`
 }
 
 // gennerate from copilt not use for this time
@@ -63,6 +69,9 @@ func NewConfig() *Config {
 		Database: struct {
 			Host string `yaml:"host"`
 			Port int    `yaml:"port"`
+			User string `env:"DB_USER"`
+			Pass string `env:"DB_PASS"`
+			Name string `env:"DB_NAME"`
 		}{
 			Host: "localhost",
 			Port: 3452,
@@ -70,6 +79,8 @@ func NewConfig() *Config {
 		Grafana: struct {
 			Host string `yaml:"host"`
 			Port int    `yaml:"port"`
+			User string `env:"GRAFANA_USER"`
+			Pass string `env:"GRAFANA_PASS"`
 		}{
 			Host: "localhost",
 			Port: 4632,
@@ -84,8 +95,14 @@ func processError(err error) {
 }
 
 // load the global config
-func LoadConfig() *Config {
+func LoadConfig(file string) *Config {
+	// file -> env -> command line
+	cfg := Config{}
 
+	readFile(&cfg, file)
+	readEnv(&cfg)
+
+	return &cfg
 }
 
 // read config from the config file
@@ -107,5 +124,9 @@ func readFile(cfg *Config, file string) {
 
 // read config from env
 func readEnv(cfg *Config) {
+	err := env.Parse(cfg)
+	if err != nil {
+		processError(err)
+	}
 
 }
