@@ -34,11 +34,15 @@ type Config struct {
 
 	// database config
 	Database struct {
-		Host string `yaml:"host"`
-		Port int    `yaml:"port"`
-		User string `env:"DB_USER"`
-		Pass string `env:"DB_PASS"`
-		Name string `env:"DB_NAME"`
+		Host            string `yaml:"host"`
+		Port            int    `yaml:"port"`
+		User            string `env:"DB_USER"`
+		Pass            string `env:"DB_PASS"`
+		Name            string `env:"DB_NAME"`
+		MaxOpenConns    int    `yaml:"max_conns"`
+		MaxIdleConns    int    `yaml:"max_idle_conns"`
+		MaxConnLifeTime int    `yaml:"conn_max_lifetime"`
+		MaxConnIdleTime int    `yaml:"conn_max_idletime"`
 	} `yaml:"database"`
 	// Grafana config
 	Grafana struct {
@@ -67,11 +71,15 @@ func NewConfig() *Config {
 			Port: 8080,
 		},
 		Database: struct {
-			Host string `yaml:"host"`
-			Port int    `yaml:"port"`
-			User string `env:"DB_USER"`
-			Pass string `env:"DB_PASS"`
-			Name string `env:"DB_NAME"`
+			Host            string `yaml:"host"`
+			Port            int    `yaml:"port"`
+			User            string `env:"DB_USER"`
+			Pass            string `env:"DB_PASS"`
+			Name            string `env:"DB_NAME"`
+			MaxOpenConns    int    `yaml:"max_conns"`
+			MaxIdleConns    int    `yaml:"max_idle_conns"`
+			MaxConnLifeTime int    `yaml:"conn_max_lifetime"`
+			MaxConnIdleTime int    `yaml:"conn_max_idletime"`
 		}{
 			Host: "localhost",
 			Port: 3452,
@@ -130,3 +138,6 @@ func readEnv(cfg *Config) {
 	}
 
 }
+
+// init global config
+var Conf = LoadConfig("../configs/config.yaml")

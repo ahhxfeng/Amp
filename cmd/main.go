@@ -17,12 +17,12 @@ func main() {
 	// load config file
 	// should merge variable declaration with assignment on next line
 	// var Conf *configs.Config
-	Conf := configs.LoadConfig("../configs/config.yaml")
-	fmt.Printf("config: %v\n", *Conf)
+	// Conf := configs.LoadConfig("../configs/config.yaml")
+	fmt.Printf("config: %v\n", *configs.Conf)
 
 	// set logger
-	logger := log.InitLogger(Conf.LogConfig.LogFile)
-	logger.Info("logger initialized", "filename", Conf.LogConfig.LogFile)
+	logger := log.InitLogger(configs.Conf.LogConfig.LogFile)
+	logger.Info("logger initialized", "filename", configs.Conf.LogConfig.LogFile)
 	// simple go http server router use gin
 	r := gin.Default()
 	r.GET("/index", Index)
