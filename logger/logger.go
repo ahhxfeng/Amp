@@ -1,7 +1,6 @@
-/*
-* main logger of the project use log/slog
-* > stdout, > file.log
- */
+// Package log provide a main log for this porject
+// use log/slog
+// Copyright (c) 2025 TF Author. All Rights Reserved.
 package log
 
 import (

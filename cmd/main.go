@@ -1,3 +1,4 @@
+// Copyright (c) 2025 TF Author. All Rights Reserved.
 package main
 
 import (

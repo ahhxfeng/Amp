@@ -1,11 +1,14 @@
+// Package configs provide a clean way to parse config
+package configs
+
 /*
+* package configs provide a clean way to parse config
 * parse the project all configs
 * A clean way to config your project
 * referrenc https://dev.to/ilyakaznacheev/a-clean-way-to-pass-configs-in-a-go-application-1g64
 * author :tf
 * file config -> env config -> command line config
  */
-package configs
 
 import (
 	"fmt"
@@ -17,8 +20,8 @@ import (
 
 type Config struct {
 	// log config
-	//LogLevel string `yaml:"log_level"`
-	//Logfile string `yaml:"log_file"`
+	// LogLevel string `yaml:"log_level"`
+	// Logfile string `yaml:"log_file"`
 
 	// logger config
 	LogConfig struct {
@@ -53,8 +56,9 @@ type Config struct {
 	} `yaml:"grafana"`
 }
 
-// gennerate from copilt not use for this time
 func NewConfig() *Config {
+	// gennerate from copilt not use for this time
+
 	return &Config{
 		LogConfig: struct {
 			LogLevel string `yaml:"log_level"`
@@ -102,8 +106,8 @@ func processError(err error) {
 	os.Exit(-1)
 }
 
-// load the global config
 func LoadConfig(file string) *Config {
+	// load the global config
 	// file -> env -> command line
 	cfg := Config{}
 
@@ -136,8 +140,8 @@ func readEnv(cfg *Config) {
 	if err != nil {
 		processError(err)
 	}
-
 }
 
-// init global config
 var Conf = LoadConfig("../configs/config.yaml")
+
+// init global config

@@ -1,7 +1,7 @@
-/*
-* db conn about this project
- */
-
+// Package internal provide the db conn
+// use driver mysql
+// use gorm
+// Copyright (c) 2025 TF Author. All Rights Reserved.
 package internal
 
 import (
@@ -15,11 +15,6 @@ import (
 	"github.com/ahhxfeng/Amp/configs"
 )
 
-func Conn() {
-	// dsn := "%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local"
-
-}
-
 func InitMysql() error {
 	cfg := configs.Conf.Database
 
@@ -32,16 +27,14 @@ func InitMysql() error {
 	)
 	// get the database conn
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-
 	if err != nil {
-		return fmt.Errorf("Connect to mysql failed:%v", err)
+		return fmt.Errorf("connect to mysql failed:%v", err)
 	}
 
 	// 连接数据库实例
 	sqlDB, err := db.DB()
-
 	if err != nil {
-		return fmt.Errorf("获取实例化对象失败：%v", err)
+		return fmt.Errorf("failed to get the object instance: %v", err)
 	}
 
 	// set the conn config
@@ -59,5 +52,4 @@ func InitMysql() error {
 	slog.Info("Mysql init success ")
 
 	return nil
-
 }
